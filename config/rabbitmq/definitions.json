@@ -90,21 +90,7 @@
   "policies": [],
   "queues": [
     {
-      "name": "user-queue",
-      "vhost": "library-app-host",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "book-queue",
-      "vhost": "library-app-host",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "rent-queue",
+      "name": "lib-queue",
       "vhost": "library-app-host",
       "durable": true,
       "auto_delete": false,
