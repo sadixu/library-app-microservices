@@ -1,8 +1,5 @@
-import { Controller, Inject, Get } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { Controller, Inject, Get } from '@nestjs/common'
+import { ClientProxy } from '@nestjs/microservices'
 
 @Controller()
-export class UsersController {
-
-
-}
+export class UsersController {}
