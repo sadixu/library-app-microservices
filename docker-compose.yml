@@ -44,7 +44,6 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: password
 
   auth-service-backend:
-    image: node:11
     container_name: auth-service-backend
     build:
       context: ./auth-service/
@@ -93,6 +92,24 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: password
 
+  book-service-backend:
+    container_name: book-service-backend
+    build:
+      context: ./book-service/
+    env_file: ./book-service/.env
+    ports:
+      - 8083:8082
+    tty: true
+    stdin_open: true
+    depends_on:
+      - library-mongo-book
+      - library-mongo-express-book
+      - rabbitmq
+    volumes:
+      - ./book-service:/usr/src/app
+      - ./book-service/node_modules:/usr/src/app/node_modules
+    command: yarn start:dev
+
   library-mongo-rent:
     container_name: library-mongo-rent
     image: mongo
@@ -123,3 +140,21 @@ services:
       ME_CONFIG_MONGODB_SERVER: library-mongo-rent
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: password
+
+  rent-service-backend:
+    container_name: rent-service-backend
+    build:
+      context: ./rent-service/
+    env_file: ./rent-service/.env
+    ports:
+      - 8084:8082
+    tty: true
+    stdin_open: true
+    depends_on:
+      - library-mongo-rent
+      - library-mongo-express-rent
+      - rabbitmq
+    volumes:
+      - ./rent-service:/usr/src/app
+      - ./rent-service/node_modules:/usr/src/app/node_modules
+    command: yarn start:dev
