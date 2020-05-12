@@ -4,7 +4,9 @@ const { SERVICE_NAME } = process.env
 
 @Controller()
 export class UsersController {
-  constructor(@Inject(SERVICE_NAME) private readonly client: ClientProxy) {}
+  constructor(@Inject(SERVICE_NAME) private readonly client: ClientProxy) {
+    console.log('im created')
+  }
 
   @Get()
   getHello() {
