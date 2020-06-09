@@ -4,14 +4,12 @@ import { Logger } from '@nestjs/common'
 
 declare const module: any
 
-const {
-  SERVICE_NAME,
-  SERVICE_VERSION,
-  PORT
-} = process.env
+const { SERVICE_NAME, SERVICE_VERSION, PORT } = process.env
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
+
+  app.enableCors()
 
   await app.listen(Number(PORT))
 
