@@ -6,5 +6,5 @@ export const UserSchema = new mongoose.Schema({
   age: Number,
   password: String,
   email: String,
-  created_at: { type: Date, default: Date.now },
+  createdAt: { type: Date, default: Date.now },
 })

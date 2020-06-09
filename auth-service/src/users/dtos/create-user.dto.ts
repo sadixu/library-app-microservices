@@ -4,5 +4,4 @@ export class CreateUserDTO {
   readonly email: string
   readonly age: number
   readonly password: string
-  readonly created_at: Date
 }

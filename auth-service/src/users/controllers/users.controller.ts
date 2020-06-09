@@ -1,26 +1,29 @@
 import { Controller, Inject, Get, Post, Res, Body, HttpStatus } from '@nestjs/common'
 import { ClientProxy } from '@nestjs/microservices'
+import { CommandBus, QueryBus } from '@nestjs/cqrs'
+import { Logger } from '@nestjs/common'
 
-import { UserService } from '../services/user.service'
 import { CreateUserDTO } from '../dtos/create-user.dto'
-
+import { RegisterUserCommand } from '../commands/impl/register-user.command'
 const { SERVICE_NAME } = process.env
 
-@Controller()
+@Controller('user')
 export class UsersController {
-  constructor(@Inject(SERVICE_NAME) private readonly client: ClientProxy, private userService: UserService) {
-    console.log('im created')
+  constructor(
+    @Inject(SERVICE_NAME) private readonly client: ClientProxy,
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
+  ) {
+    Logger.log('User controller is up and fresh.')
   }
 
-  @Post('/create')
-  async addUser(@Res() res, @Body() createUserDTO: CreateUserDTO) {
-    console.log('im called')
-    const user = await this.userService.addUser(createUserDTO)
-    
-    return res.status(HttpStatus.OK).json({
-      message: 'User has been created successfully',
-      user,
-    })
+  @Post()
+  async registerUser(@Res() res, @Body() dto: CreateUserDTO) {
+    const result = await this.commandBus.execute(
+      new RegisterUserCommand(dto.firstname, dto.lastname, dto.email, dto.age, dto.password),
+    )
+
+    return res.send(result)
   }
 
   @Get()

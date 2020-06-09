@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common'
 import { Model } from 'mongoose'
 import { InjectModel } from '@nestjs/mongoose'
-import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { User } from '../interfaces/user.interface'
 import { CreateUserDTO } from '../dtos/create-user.dto'
 
 @Injectable()
-export class UserService {
+export class UserRepository {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
   // fetch all users
   async getAllUser(): Promise<User[]> {
@@ -22,7 +21,9 @@ export class UserService {
   // post a single user
   async addUser(createUserDTO: CreateUserDTO): Promise<User> {
     const newUser = await this.userModel(createUserDTO)
-    return newUser.save()
+    const user = newUser.save()
+
+    return user
   }
   // Edit user details
   async updateUser(userID, createUserDTO: CreateUserDTO): Promise<User> {
