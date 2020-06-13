@@ -14,7 +14,7 @@ export class UserRepository {
     return users
   }
   // Get a single user
-  async getUser(userID): Promise<User> {
+  async findOne(userID): Promise<User> {
     const user = await this.userModel.findById(userID).exec()
     return user
   }
@@ -22,7 +22,7 @@ export class UserRepository {
   async findByEmail(email: string): Promise<User> {
     return this.userModel.findOne({ email })
   }
-  
+
   async addUser(createUserDTO: CreateUserDTO): Promise<User> {
     const newUser = await this.userModel(createUserDTO)
     const user = newUser.save()

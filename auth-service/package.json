@@ -38,6 +38,7 @@
     "crypto": "^1.0.1",
     "csurf": "^1.11.0",
     "email-validator": "^2.0.4",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.13",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

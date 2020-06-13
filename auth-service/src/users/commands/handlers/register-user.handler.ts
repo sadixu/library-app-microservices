@@ -13,7 +13,7 @@ export class RegisterUserHandler implements ICommandHandler<RegisterUserCommand>
     try {
       const { firstname, lastname, email, age, password } = command
 
-      const userObject = new User(firstname, lastname, age, password, email)
+      const userObject = new User(firstname, lastname, age, password, email, true)
 
       const user = await this.repository.addUser({
         firstname: userObject.firstname,
