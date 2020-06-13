@@ -35,4 +35,8 @@ export class User extends AggregateRoot {
   createAge(age: number): number {
     return age
   }
+
+  static checkPassword(enteredPassword: string, password: string) {
+    return Password.checkPassword(enteredPassword, password)
+  }
 }

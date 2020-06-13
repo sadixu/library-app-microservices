@@ -2,9 +2,13 @@ import { Injectable } from '@nestjs/common'
 import { CommandBus, QueryBus } from '@nestjs/cqrs'
 import { HttpException, HttpStatus } from '@nestjs/common'
 
+import { UserRepository } from '../repositories/user.repository'
+
 import { RegisterUserCommand } from '../commands/impl/register-user.command'
 import { CreateUserDTO } from '../dtos/create-user.dto'
-import { UserRepository } from '../repositories/user.repository'
+
+import { LoginUserQuery } from '../queries/impl/login-user.query'
+import { LoginUserDTO } from '../dtos/login-user.dto'
 
 @Injectable()
 export class UserService {
@@ -30,5 +34,9 @@ export class UserService {
     return this.commandBus.execute(
       new RegisterUserCommand(dto.firstname, dto.lastname, dto.email, dto.age, dto.password),
     )
+  }
+
+  async login(dto: LoginUserDTO) {
+    return this.queryBus.execute(new LoginUserQuery(dto.email, dto.password))
   }
 }
