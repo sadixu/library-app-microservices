@@ -1,14 +1,20 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, Logger } from '@nestjs/common'
 import { Model } from 'mongoose'
 import { InjectModel } from '@nestjs/mongoose'
-import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { CommandBus, QueryBus } from '@nestjs/cqrs'
 
 import { User } from '../interfaces/user.interface'
 import { CreateUserDTO } from '../dtos/create-user.dto'
+import { RegisterUserCommand } from '../commands/impl/register-user.command'
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
+  constructor(@InjectModel('User') private readonly userModel: Model<User>, private readonly commandBus: CommandBus) {}
+  async registerUser(dto: CreateUserDTO) {
+    return this.commandBus.execute(
+      new RegisterUserCommand(dto.firstname, dto.lastname, dto.email, dto.age, dto.password),
+    )
+  }
   // fetch all users
   async getAllUser(): Promise<User[]> {
     const users = await this.userModel.find().exec()
