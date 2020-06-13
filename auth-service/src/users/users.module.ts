@@ -4,7 +4,6 @@ import { MongooseModule } from '@nestjs/mongoose'
 import { CqrsModule } from '@nestjs/cqrs'
 
 import { UserSchema } from './schemas/User'
-import { UserService } from './services/user.service'
 import { UsersController } from './controllers/users.controller'
 import { UserRepository } from './repositories/user.repository'
 import { CommandHandlers } from './commands/handlers'
@@ -28,6 +27,6 @@ const rmqConnectionUrl = `amqp://${RMQ_USER}:${RMQ_PASSWORD}@${RMQ_HOST}:${RMQ_P
     CqrsModule,
   ],
   controllers: [UsersController],
-  providers: [UserService, UserRepository, ...CommandHandlers],
+  providers: [UserRepository, ...CommandHandlers],
 })
 export class UsersModule {}

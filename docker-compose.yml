@@ -61,7 +61,7 @@ services:
       - rabbitmq
     volumes:
       - ./auth-service:/usr/src/app
-      - ./auth-service/node_modules:/usr/src/app/node_modules
+      # - ./auth-service/node_modules:/usr/src/app/node_modules
     command: yarn start:dev
 
   library-mongo-book:

@@ -17,7 +17,10 @@ async function bootstrap() {
 
   if (module.hot) {
     module.hot.accept()
-    module.hot.dispose(() => app.close())
+    module.hot.dispose(async () => {
+      await app.close()
+      
+    })
     Logger.log(`${SERVICE_NAME} V:${SERVICE_VERSION} Hot Reloading: ENABLED`)
   }
 }

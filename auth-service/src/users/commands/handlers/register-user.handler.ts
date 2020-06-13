@@ -1,29 +1,37 @@
 import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs'
+import { HttpException, HttpStatus } from '@nestjs/common'
 
 import { UserRepository } from '../../repositories/user.repository'
-
 import { RegisterUserCommand } from '../impl/register-user.command'
+import { User } from '../../models/User.model'
 
 @CommandHandler(RegisterUserCommand)
 export class RegisterUserHandler implements ICommandHandler<RegisterUserCommand> {
   constructor(private readonly repository: UserRepository, private readonly publisher: EventPublisher) {}
 
   async execute(command: RegisterUserCommand) {
-    console.log('registering user')
-    const { firstname, lastname, email, age, password } = command
+    try {
+      const { firstname, lastname, email, age, password } = command
 
-    const user = await this.repository.addUser({ firstname, lastname, email, age, password })
+      const userObject = new User(firstname, lastname, age, password, email)
 
-    return user
-    /*
-    public readonly firstname: string,
-    public readonly lastname: string,
-    public readonly email: string,
-    public readonly age: number,
-    public readonly password: string,
-    */
-    // const hero = this.publisher.mergeObjectContext(await this.repository.findOneById(+heroId))
-    // hero.killEnemy(dragonId)
-    // hero.commit()
+      const user = await this.repository.addUser({
+        firstname: userObject.firstname,
+        lastname: userObject.lastname,
+        email: userObject.email,
+        age: userObject.age,
+        password: userObject.password,
+      })
+
+      return user
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: error.message,
+        },
+        HttpStatus.FORBIDDEN,
+      )
+    }
   }
 }
