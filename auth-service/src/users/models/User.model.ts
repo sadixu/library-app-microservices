@@ -25,26 +25,14 @@ export class User extends AggregateRoot {
   }
 
   createFirstname(firstname: string): string {
-    if (!firstname) {
-      throw new Error('Firstname cannot be empty when creating new user')
-    }
-
     return firstname
   }
 
   createLastname(lastname: string): string {
-    if (!lastname) {
-      throw new Error('Lastname cannot be empty when creating new user')
-    }
-
     return lastname
   }
 
   createAge(age: number): number {
-    if (age < 14) {
-      throw new Error('Age must be bigger than 14')
-    }
-
     return age
   }
 }
