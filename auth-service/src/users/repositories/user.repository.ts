@@ -18,7 +18,11 @@ export class UserRepository {
     const user = await this.userModel.findById(userID).exec()
     return user
   }
-  // post a single user
+
+  async findByEmail(email: string): Promise<User> {
+    return this.userModel.findOne({ email })
+  }
+  
   async addUser(createUserDTO: CreateUserDTO): Promise<User> {
     const newUser = await this.userModel(createUserDTO)
     const user = newUser.save()

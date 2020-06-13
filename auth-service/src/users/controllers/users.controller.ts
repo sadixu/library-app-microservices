@@ -4,6 +4,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs'
 
 import { CreateUserDTO } from '../dtos/create-user.dto'
 import { RegisterUserCommand } from '../commands/impl/register-user.command'
+import { UserService } from '../services/user.service'
 
 const { SERVICE_NAME } = process.env
 
@@ -13,15 +14,14 @@ export class UsersController {
     @Inject(SERVICE_NAME) private readonly client: ClientProxy,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
+    private readonly service: UserService,
   ) {
     Logger.log('User controller is up and fresh.')
   }
 
   @Post()
   async registerUser(@Res() res, @Body() dto: CreateUserDTO) {
-    const result = await this.commandBus.execute(
-      new RegisterUserCommand(dto.firstname, dto.lastname, dto.email, dto.age, dto.password),
-    )
+    const result = await this.service.registerUser(dto)
 
     return res.send(result)
   }

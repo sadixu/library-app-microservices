@@ -7,6 +7,7 @@ import { UserSchema } from './schemas/User'
 import { UsersController } from './controllers/users.controller'
 import { UserRepository } from './repositories/user.repository'
 import { CommandHandlers } from './commands/handlers'
+import { UserService } from './services/user.service'
 
 const { RMQ_USER, RMQ_PASSWORD, RMQ_PORT, RMQ_HOST, RMQ_VIRTUAL_HOST, RMQ_USER_QUEUE, SERVICE_NAME } = process.env
 const rmqConnectionUrl = `amqp://${RMQ_USER}:${RMQ_PASSWORD}@${RMQ_HOST}:${RMQ_PORT}/${RMQ_VIRTUAL_HOST}`
@@ -27,6 +28,6 @@ const rmqConnectionUrl = `amqp://${RMQ_USER}:${RMQ_PASSWORD}@${RMQ_HOST}:${RMQ_P
     CqrsModule,
   ],
   controllers: [UsersController],
-  providers: [UserRepository, ...CommandHandlers],
+  providers: [UserRepository, ...CommandHandlers, UserService],
 })
 export class UsersModule {}
