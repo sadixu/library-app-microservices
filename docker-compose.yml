@@ -61,15 +61,16 @@ services:
       - rabbitmq
     volumes:
       - ./auth-service:/usr/src/app
-      # - ./auth-service/node_modules:/usr/src/app/node_modules
+      - ./auth-service/node_modules:/usr/src/app/node_modules
     command: yarn start:dev
 
   library-mongo-book:
     container_name: library-mongo-book
     image: mongo
     ports:
-      - 27101:27017
+      - 27101:27018
     restart: always
+    command: mongod --port 27018
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
@@ -90,7 +91,7 @@ services:
       - library-mongo-book
       - rabbitmq
     environment:
-      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_PORT: 27018
       ME_CONFIG_MONGODB_SERVER: library-mongo-book
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: password

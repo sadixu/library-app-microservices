@@ -1,26 +1,32 @@
 import { NestFactory } from '@nestjs/core'
-import { AppModule } from './books/app.module'
-import { Logger } from '@nestjs/common'
+import { AppModule } from './app.module'
+import { Logger, ValidationPipe } from '@nestjs/common'
 
 declare const module: any
 
-const {
-  SERVICE_NAME,
-  SERVICE_VERSION,
-  PORT
-} = process.env
+const { SERVICE_NAME, SERVICE_VERSION, PORT } = process.env
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule)
+  try {
+    const app = await NestFactory.create(AppModule)
 
-  await app.listen(Number(PORT))
+    app.enableCors()
+    app.useGlobalPipes(new ValidationPipe())
 
-  Logger.log(`${SERVICE_NAME} V:${SERVICE_VERSION} successfully loaded.`)
+    await app.listen(Number(PORT))
 
-  if (module.hot) {
-    module.hot.accept()
-    module.hot.dispose(() => app.close())
-    Logger.log(`${SERVICE_NAME} V:${SERVICE_VERSION} Hot Reloading: ENABLED`)
+    Logger.log(`${SERVICE_NAME} V:${SERVICE_VERSION} successfully loaded.`)
+
+    if (module.hot) {
+      module.hot.accept()
+      module.hot.dispose(async () => {
+        await app.close()
+      })
+
+      Logger.log(`${SERVICE_NAME} V:${SERVICE_VERSION} Hot Reloading: ENABLED`)
+    }
+  } catch (error) {
+    Logger.error(error)
   }
 }
 
