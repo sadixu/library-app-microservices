@@ -9,4 +9,6 @@ export const UserSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
   isDeleted: { type: Boolean, default: false },
   deletedAt: { type: Date, default: null },
+  accessToken: { type: String, default: null },
+  refreshToken: { type: String, default: null},
 })

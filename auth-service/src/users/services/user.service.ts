@@ -7,7 +7,7 @@ import { UserRepository } from '../repositories/user.repository'
 import { RegisterUserCommand } from '../commands/impl/register-user.command'
 import { CreateUserDTO } from '../dtos/create-user.dto'
 
-import { LoginUserQuery } from '../queries/impl/login-user.query'
+import { LoginUserCommand } from '../commands/impl/login-user.command'
 import { LoginUserDTO } from '../dtos/login-user.dto'
 
 @Injectable()
@@ -37,6 +37,6 @@ export class UserService {
   }
 
   async login(dto: LoginUserDTO) {
-    return this.queryBus.execute(new LoginUserQuery(dto.email, dto.password))
+    return this.commandBus.execute(new LoginUserCommand(dto.email, dto.password))
   }
 }

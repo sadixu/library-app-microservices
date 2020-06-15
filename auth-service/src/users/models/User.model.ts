@@ -12,6 +12,8 @@ export class User extends AggregateRoot {
     public password: string,
     public email: string,
     public register: boolean,
+    public accessToken?: string,
+    public refreshToken?: string,
   ) {
     super()
 
@@ -24,6 +26,8 @@ export class User extends AggregateRoot {
     this.age = this.createAge(age)
     this.password = register ? Password.createPassword(password) : password
     this.email = Email.createEmail(email)
+    this.accessToken = null
+    this.refreshToken = null
   }
 
   createFirstname(firstname: string): string {
@@ -38,7 +42,7 @@ export class User extends AggregateRoot {
     return age
   }
 
-  login(enteredPassword) {
+  login(enteredPassword: string): { accessToken: string; refreshToken: string } {
     const isPasswordValid = Password.checkPassword(enteredPassword, this.password)
 
     if (!isPasswordValid) {
@@ -48,7 +52,7 @@ export class User extends AggregateRoot {
     return Token.create(this.email, this.firstname, this.lastname)
   }
 
-  static checkPassword(enteredPassword: string, password: string) {
+  static checkPassword(enteredPassword: string, password: string): boolean {
     return Password.checkPassword(enteredPassword, password)
   }
 }
