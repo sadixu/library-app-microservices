@@ -1,6 +1,5 @@
-import { Controller, Inject, Get, Post, Res, Body, HttpStatus, Logger } from '@nestjs/common'
+import { Controller, Inject, Get, Post, Res, Body, Logger } from '@nestjs/common'
 import { ClientProxy } from '@nestjs/microservices'
-import { CommandBus, QueryBus } from '@nestjs/cqrs'
 
 import { CreateUserDTO } from '../dtos/create-user.dto'
 import { LoginUserDTO } from '../dtos/login-user.dto'
