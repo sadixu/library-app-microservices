@@ -163,3 +163,19 @@ services:
       - ./rent-service:/usr/src/app
       - ./rent-service/node_modules:/usr/src/app/node_modules
     command: yarn start:dev
+
+  gateway-backend:
+    container_name: gateway-backend
+    build:
+      context: ./gateway/
+    env_file: ./gateway/.env
+    ports:
+      - 8085:3027
+    tty: true
+    stdin_open: true
+    depends_on:
+      - rabbitmq
+    volumes:
+      - ./gateway:/usr/src/app
+      - ./gateway/node_modules:/usr/src/app/node_modules
+    command: yarn start:dev

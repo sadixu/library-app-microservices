@@ -35,11 +35,26 @@ export class UsersController {
     return 'Hello World printed'
   }
 
+  @MessagePattern('register-user')
+  async registerUserEvent(@Payload() data: any, @Ctx() context: RmqContext) {
+    const channel = context.getChannelRef()
+    const originalMsg = context.getMessage()
+    channel.ack(originalMsg)
+
+    try {
+      const result = await this.service.registerUser(data)
+      console.log(result)
+
+      return { result }
+    } catch (error) {
+      return { error }
+    }
+  }
+
   @EventPattern('message_printed')
   async getNotifications(@Payload() data: any, @Ctx() context: RmqContext) {
     console.log('4. dostalem message, ', data.text)
 
-    
     const channel = context.getChannelRef()
     const originalMsg = context.getMessage()
     channel.ack(originalMsg)
@@ -51,7 +66,6 @@ export class UsersController {
   async getNotifications2(@Payload() data: any, @Ctx() context: RmqContext) {
     console.log('4. dostalem message, ', data.text)
 
-    
     const channel = context.getChannelRef()
     const originalMsg = context.getMessage()
     channel.ack(originalMsg)

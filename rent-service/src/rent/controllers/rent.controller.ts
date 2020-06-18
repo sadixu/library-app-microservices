@@ -8,39 +8,20 @@ export class RentController {
 
   @Get()
   async getHello() {
-    console.log('1. mam geta do API')
-    // const test = await this.client.emit<any>('message_printed', { text: 'test text' })
-    const test = this.client.send<any>('message_printed', { text: 'test text' })
-    let blerp = null
-    const testerinho = await test.subscribe({
-      next(x) {
-        console.log(x)
-        return x
-      },
-      error(err) {
-        console.error('something wrong occurred: ' + err)
-      },
-      complete() {
-        console.log('done')
-      },
-    })
-    console.log('2. jebnalem message do RMQ')
-    console.log('3. obiekt jebniecia message:')
-    console.log(testerinho)
+    const messagePromise = this.client.send<any>('message_printed', { text: 'test text' })
 
-    const test2 =  this.client.send<any>('message_printed2', { text: 'test text' })
-    const testerinho2 = await test2.subscribe({
-      next(x) {
-        console.log(x)
-        return x
-      },
-      error(err) {
-        console.error('something wrong occurred: ' + err)
-      },
-      complete() {
-        console.log('done')
-      },
+    const chybaZadziala = new Promise((resolve) => {
+      messagePromise.subscribe({
+        next(consumerResponse) {
+          resolve(consumerResponse)
+        },
+      })
     })
-    return 'Hello World printed'
+
+    const zobaczmyWiec = await chybaZadziala
+    console.log('zobaczmyWiec is')
+    console.log(zobaczmyWiec)
+
+    return zobaczmyWiec
   }
 }
