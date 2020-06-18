@@ -15,8 +15,8 @@ export class UsersController {
 
     const messagePromise = new Promise((resolve, reject) => {
       messageObservable.subscribe({
-        next(x) {
-          resolve(x)
+        next(value) {
+          resolve(value)
         },
       })
     })
@@ -32,14 +32,14 @@ export class UsersController {
 
     const messagePromise = new Promise((resolve, reject) => {
       messageObservable.subscribe({
-        next(x) {
-          resolve(x)
+        next(value) {
+          resolve(value)
         },
       })
     })
 
     const messageResponse = await messagePromise
-    
+
     return res.send(messageResponse)
   }
 }
