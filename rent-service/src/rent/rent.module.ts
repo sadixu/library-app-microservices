@@ -14,6 +14,8 @@ const rmqConnectionUrl = `amqp://${RMQ_USER}:${RMQ_PASSWORD}@${RMQ_HOST}:${RMQ_P
         options: {
           urls: [rmqConnectionUrl],
           queue: RMQ_USER_QUEUE,
+          noAck: false,
+          prefetchCount: 1,
         },
       },
     ]),

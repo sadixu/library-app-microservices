@@ -92,9 +92,10 @@
     {
       "name": "lib-queue",
       "vhost": "library-app-host",
-      "durable": true,
+      "durable": false,
       "auto_delete": false,
-      "arguments": {}
+      "arguments": {},
+      "no_ack": false
     }
   ],
   "exchanges": [],
