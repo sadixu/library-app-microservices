@@ -11,23 +11,36 @@ export class RentController {
     console.log('1. mam geta do API')
     // const test = await this.client.emit<any>('message_printed', { text: 'test text' })
     const test = this.client.send<any>('message_printed', { text: 'test text' })
-    console.log(
-      test.subscribe({
-        next(x) {
-          console.log('got value ' + x)
-          console.log(x)
-        },
-        error(err) {
-          console.error('something wrong occurred: ' + err)
-        },
-        complete(data) {
-          console.log('done')
-        },
-      }),
-    )
+    let blerp = null
+    const testerinho = await test.subscribe({
+      next(x) {
+        console.log(x)
+        return x
+      },
+      error(err) {
+        console.error('something wrong occurred: ' + err)
+      },
+      complete() {
+        console.log('done')
+      },
+    })
     console.log('2. jebnalem message do RMQ')
     console.log('3. obiekt jebniecia message:')
+    console.log(testerinho)
 
+    const test2 =  this.client.send<any>('message_printed2', { text: 'test text' })
+    const testerinho2 = await test2.subscribe({
+      next(x) {
+        console.log(x)
+        return x
+      },
+      error(err) {
+        console.error('something wrong occurred: ' + err)
+      },
+      complete() {
+        console.log('done')
+      },
+    })
     return 'Hello World printed'
   }
 }

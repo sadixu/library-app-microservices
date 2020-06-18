@@ -39,11 +39,23 @@ export class UsersController {
   async getNotifications(@Payload() data: any, @Ctx() context: RmqContext) {
     console.log('4. dostalem message, ', data.text)
 
-    const test = await setTimeout(async () => {}, 5000)
+    
     const channel = context.getChannelRef()
     const originalMsg = context.getMessage()
     channel.ack(originalMsg)
     console.log('5. zrobilem acknowledge')
     return 112
+  }
+
+  @EventPattern('message_printed2')
+  async getNotifications2(@Payload() data: any, @Ctx() context: RmqContext) {
+    console.log('4. dostalem message, ', data.text)
+
+    
+    const channel = context.getChannelRef()
+    const originalMsg = context.getMessage()
+    channel.ack(originalMsg)
+    console.log('5. zrobilem acknowledge')
+    return 113
   }
 }
