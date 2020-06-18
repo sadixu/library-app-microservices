@@ -1,27 +1,27 @@
-import { Controller, Inject, Get } from '@nestjs/common'
-import { EventPattern, ClientProxy, MessagePattern, Payload, Ctx, RmqContext } from '@nestjs/microservices'
+import { Controller, Inject, Logger } from '@nestjs/common'
+import { ClientProxy, MessagePattern, Payload, Ctx, RmqContext } from '@nestjs/microservices'
+
+// import { CreateBookDTO } from '../dtos/create-book.dto'
+// import { BookService } from '../services/book.service'
+
 const { SERVICE_NAME } = process.env
 
 @Controller('rental')
-export class RentController {
+export class RentalController {
   constructor(@Inject(SERVICE_NAME) private readonly client: ClientProxy) {}
 
-  @Get()
-  async getHello() {
-    const messagePromise = this.client.send<any>('message_printed', { text: 'test text' })
+  @MessagePattern('rent-book')
+  async createBook(@Payload() data: any, @Ctx() context: RmqContext) {
+    const channel = context.getChannelRef()
+    const originalMsg = context.getMessage()
+    channel.ack(originalMsg)
 
-    const chybaZadziala = new Promise((resolve) => {
-      messagePromise.subscribe({
-        next(consumerResponse) {
-          resolve(consumerResponse)
-        },
-      })
-    })
-
-    const zobaczmyWiec = await chybaZadziala
-    console.log('zobaczmyWiec is')
-    console.log(zobaczmyWiec)
-
-    return zobaczmyWiec
+    try {
+      // const result = await this.service.createBook(data)
+      const result = 2
+      return { result }
+    } catch (error) {
+      return { error }
+    }
   }
 }

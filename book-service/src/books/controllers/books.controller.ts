@@ -24,11 +24,4 @@ export class BooksController {
       return { error }
     }
   }
-
-  // @Post()
-  // async createBook(@Res() res, @Body() dto: CreateBookDTO) {
-  //   const result = await this.service.createBook(dto)
-
-  //   return res.send(result)
-  // }
 }

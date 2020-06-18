@@ -11,8 +11,6 @@ export class RentalsController {
 
   @Post()
   async rentBook(@Res() res, @Body() dto: any) {
-      console.log(dto)
-      return res.send('siema tutaj rentBook')
     const messageObservable = this.client.send<any>('rent-book', { ...dto })
 
     const messagePromise = new Promise((resolve) => {
