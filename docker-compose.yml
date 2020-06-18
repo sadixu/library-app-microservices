@@ -118,8 +118,9 @@ services:
     container_name: library-mongo-rent
     image: mongo
     ports:
-      - 27102:27017
+      - 27102:27019
     restart: always
+    command: mongod --port 27019
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
@@ -140,7 +141,7 @@ services:
       - library-mongo-rent
       - rabbitmq
     environment:
-      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_PORT: 27019
       ME_CONFIG_MONGODB_SERVER: library-mongo-rent
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: password
