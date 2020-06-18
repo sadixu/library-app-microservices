@@ -1,5 +1,5 @@
-import { Controller, Inject, Get, Post, Res, Body, Logger } from '@nestjs/common'
-import { EventPattern, ClientProxy, MessagePattern, Payload, Ctx, RmqContext } from '@nestjs/microservices'
+import { Controller, Inject, Logger } from '@nestjs/common'
+import { ClientProxy, MessagePattern, Payload, Ctx, RmqContext } from '@nestjs/microservices'
 
 import { UserService } from '../services/user.service'
 

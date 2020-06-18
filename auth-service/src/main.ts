@@ -20,7 +20,6 @@ const rmqConnectionUrl = `amqp://${RMQ_USER}:${RMQ_PASSWORD}@${RMQ_HOST}:${RMQ_P
 
 async function bootstrap() {
   try {
-    // const app = await NestFactory.create(AppModule)
     const app = await NestFactory.createMicroservice(AppModule, {
       transport: Transport.RMQ,
       options: {
@@ -30,12 +29,10 @@ async function bootstrap() {
         prefetchCount: 1,
       },
     })
-    // app.enableCors()
+
     app.useGlobalPipes(new ValidationPipe())
 
-    await app.listen(() => console.log('Microservice is listening'))
-
-    Logger.log(`${SERVICE_NAME} V:${SERVICE_VERSION} successfully loaded.`)
+    await app.listen(() => Logger.log(`${SERVICE_NAME} V:${SERVICE_VERSION} successfully loaded.`))
 
     if (module.hot) {
       module.hot.accept()
