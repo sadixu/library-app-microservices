@@ -11,8 +11,6 @@ export class UsersController {
 
   @Post()
   async registerUser(@Res() res, @Body() dto: any) {
-    console.log(dto)
-
     const messageObservable = this.client.send<any>('register-user', { ...dto })
 
     const messagePromise = new Promise((resolve, reject) => {
@@ -25,6 +23,23 @@ export class UsersController {
 
     const messageResponse = await messagePromise
 
+    return res.send(messageResponse)
+  }
+
+  @Post('/session')
+  async loginUser(@Res() res, @Body() dto: any) {
+    const messageObservable = this.client.send<any>('login', { ...dto })
+
+    const messagePromise = new Promise((resolve, reject) => {
+      messageObservable.subscribe({
+        next(x) {
+          resolve(x)
+        },
+      })
+    })
+
+    const messageResponse = await messagePromise
+    
     return res.send(messageResponse)
   }
 }

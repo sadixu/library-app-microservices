@@ -4,6 +4,7 @@ import { EventPattern, ClientProxy, MessagePattern, Payload, Ctx, RmqContext } f
 import { CreateUserDTO } from '../dtos/create-user.dto'
 import { LoginUserDTO } from '../dtos/login-user.dto'
 import { UserService } from '../services/user.service'
+import { CommandHandlerNotFoundException } from '@nestjs/cqrs'
 
 const { SERVICE_NAME } = process.env
 
@@ -20,20 +21,6 @@ export class UsersController {
     return res.send(result)
   }
 
-  @Post('/session')
-  async loginUser(@Res() res, @Body() dto: LoginUserDTO) {
-    const result = await this.service.login(dto)
-
-    return res.send(result)
-  }
-
-  @Get()
-  getHello() {
-    console.log('called')
-    const test = this.client.emit<any>('message_printed', { text: 'test text' })
-    console.log(test)
-    return 'Hello World printed'
-  }
 
   @MessagePattern('register-user')
   async registerUserEvent(@Payload() data: any, @Ctx() context: RmqContext) {
@@ -43,7 +30,21 @@ export class UsersController {
 
     try {
       const result = await this.service.registerUser(data)
-      console.log(result)
+
+      return { result }
+    } catch (error) {
+      return { error }
+    }
+  }
+
+  @MessagePattern('login')
+  async loginUser(@Payload() data: any, @Ctx() context: RmqContext) {
+    const channel = context.getChannelRef()
+    const originalMsg = context.getMessage()
+    channel.ack(originalMsg)
+
+    try {
+      const result = await this.service.login(data)
 
       return { result }
     } catch (error) {
