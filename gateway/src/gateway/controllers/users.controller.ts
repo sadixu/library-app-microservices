@@ -1,4 +1,4 @@
-import { Controller, Inject, Post, Res, Body, Logger, Delete } from '@nestjs/common'
+import { Controller, Inject, Post, Res, Body, Logger, Delete, Get } from '@nestjs/common'
 import { ClientProxy } from '@nestjs/microservices'
 
 const { SERVICE_NAME } = process.env
@@ -42,6 +42,25 @@ export class UsersController {
 
     return res.send(messageResponse)
   }
+
+  @Get('/auth')
+  async authorizeUser(@Res() res, @Body() dto: any) {
+    console.log(dto)
+    const messageObservable = this.client.send<any>('authorize', { ...dto })
+
+    const messagePromise = new Promise((resolve, reject) => {
+      messageObservable.subscribe({
+        next(value) {
+          resolve(value)
+        },
+      })
+    })
+
+    const messageResponse = await messagePromise
+
+    return res.send(messageResponse)
+  }
+
 
   @Delete('/session')
   async logoutUser(@Res() res, @Body() dto: any) {

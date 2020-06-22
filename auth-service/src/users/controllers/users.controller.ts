@@ -40,4 +40,19 @@ export class UsersController {
       return { error }
     }
   }
+
+  @MessagePattern('authorize')
+  async authorizeUser(@Payload() data: any, @Ctx() context: RmqContext) {
+    const channel = context.getChannelRef()
+    const originalMsg = context.getMessage()
+    channel.ack(originalMsg)
+
+    try {
+      const result = await this.service.authorizeUser(data)
+
+      return { result }
+    } catch (error) {
+      return { error }
+    }
+  }
 }

@@ -32,5 +32,7 @@ export class GatewayModule implements NestModule {
     consumer
       .apply(AttachTokensMiddleware)
       .forRoutes({ path: 'rental', method: RequestMethod.POST }, { path: 'rental', method: RequestMethod.GET })
+      .apply(AttachTokensMiddleware)
+      .forRoutes({ path: 'user/auth', method: RequestMethod.GET })
   }
 }

@@ -10,6 +10,9 @@ import { CreateUserDTO } from '../dtos/create-user.dto'
 import { LoginUserCommand } from '../commands/impl/login-user.command'
 import { LoginUserDTO } from '../dtos/login-user.dto'
 
+import { AuthorizeQuery } from '../queries/impl/authorize.query'
+import { AuthorizeDTO } from '../dtos/authorize.dto'
+
 @Injectable()
 export class UserService {
   constructor(
@@ -38,5 +41,15 @@ export class UserService {
 
   async login(dto: LoginUserDTO) {
     return this.commandBus.execute(new LoginUserCommand(dto.email, dto.password))
+  }
+
+  async authorizeUser(dto: AuthorizeDTO) {
+    try {
+      const test = await this.queryBus.execute(new AuthorizeQuery(dto.authorizationToken))
+
+      return test
+    } catch (error) {
+      console.log(error)
+    }
   }
 }

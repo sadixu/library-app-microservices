@@ -8,4 +8,6 @@ export interface User extends Document {
   readonly age: number
   readonly password: string
   readonly created_at: Date
+  readonly accessToken?: string
+  readonly refreshToken?: string
 }

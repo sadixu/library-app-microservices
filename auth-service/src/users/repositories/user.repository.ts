@@ -24,6 +24,10 @@ export class UserRepository {
     return this.userModel.findOne({ email })
   }
 
+  async findByToken(accessToken: string): Promise<User> {
+    return this.userModel.findOne({ accessToken })
+  }
+
   async addUser(createUserDTO: CreateUserDTO): Promise<User> {
     const newUser = await this.userModel(createUserDTO)
     const user = newUser.save()
