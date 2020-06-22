@@ -105,7 +105,7 @@
     {
       "name": "lib-queue",
       "vhost": "library-app-host",
-      "durable": false,
+      "durable": true,
       "auto_delete": false,
       "arguments": {},
       "no_ack": false

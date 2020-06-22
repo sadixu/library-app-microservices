@@ -45,7 +45,6 @@ export class UsersController {
 
   @Get('/auth')
   async authorizeUser(@Res() res, @Body() dto: any) {
-    console.log(dto)
     const messageObservable = this.client.send<any>('authorize', { ...dto })
 
     const messagePromise = new Promise((resolve, reject) => {

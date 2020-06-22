@@ -12,7 +12,7 @@ import { QueryHandlers } from './queries/handlers'
 
 const { RMQ_USER, RMQ_PASSWORD, RMQ_PORT, RMQ_HOST, RMQ_VIRTUAL_HOST, RMQ_USER_QUEUE, SERVICE_NAME } = process.env
 const rmqConnectionUrl = `amqp://${RMQ_USER}:${RMQ_PASSWORD}@${RMQ_HOST}:${RMQ_PORT}/${RMQ_VIRTUAL_HOST}`
-console.log(QueryHandlers)
+
 @Module({
   imports: [
     ClientsModule.register([

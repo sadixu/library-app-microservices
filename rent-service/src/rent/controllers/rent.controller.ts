@@ -1,5 +1,5 @@
 import { Controller, Inject, Logger } from '@nestjs/common'
-import { ClientProxy, MessagePattern, Payload, Ctx, RmqContext } from '@nestjs/microservices'
+import { ClientProxy, EventPattern, Payload, Ctx, RmqContext } from '@nestjs/microservices'
 
 // import { CreateBookDTO } from '../dtos/create-book.dto'
 // import { BookService } from '../services/book.service'
@@ -10,7 +10,7 @@ const { SERVICE_NAME } = process.env
 export class RentalController {
   constructor(@Inject(SERVICE_NAME) private readonly client: ClientProxy) {}
 
-  @MessagePattern('rent-book')
+  @EventPattern('rent-book')
   async createBook(@Payload() data: any, @Ctx() context: RmqContext) {
     const channel = context.getChannelRef()
     const originalMsg = context.getMessage()

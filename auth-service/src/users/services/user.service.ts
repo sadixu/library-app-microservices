@@ -44,12 +44,6 @@ export class UserService {
   }
 
   async authorizeUser(dto: AuthorizeDTO) {
-    try {
-      const test = await this.queryBus.execute(new AuthorizeQuery(dto.authorizationToken))
-
-      return test
-    } catch (error) {
-      console.log(error)
-    }
+    return this.queryBus.execute(new AuthorizeQuery(dto.authorizationToken))
   }
 }
