@@ -10,16 +10,11 @@ export class RentalController {
     Logger.log('Constructor is alive')
   }
 
-
-
   @EventPattern('rent-book')
   async createBook(@Payload() data: any, @Ctx() context: RmqContext) {
-    console.log(data)
-
     const channel = context.getChannelRef()
     const originalMsg = context.getMessage()
     channel.ack(originalMsg)
-
 
     return this.service.rentBook(data)
   }

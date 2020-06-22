@@ -5,16 +5,34 @@ const { SERVICE_NAME } = process.env
 
 @Controller('rental')
 export class RentalsController {
-  constructor(@Inject(`${SERVICE_NAME}-RENT`) private readonly client: ClientProxy) {
+  constructor(
+    @Inject(`${SERVICE_NAME}-RENT`) private readonly client: ClientProxy,
+    @Inject(`${SERVICE_NAME}-AUTH`) private readonly userClient: ClientProxy,
+  ) {
     Logger.log('Gateway for Books is up and fresh.')
   }
 
   @Post()
   async rentBook(@Res() res, @Body() dto: any) {
     try {
-      console.log(dto)
-      const messageObservable = this.client.send<any>('rent-book', { ...dto })
-      console.log(1)
+      const userObservable = this.userClient.send<any>('authorize', { ...dto })
+
+      const userPromise = new Promise((resolve) => {
+        userObservable.subscribe({
+          next(value) {
+            resolve(value)
+          },
+        })
+      })
+
+      const userResponse: any= await userPromise
+
+      if (!userResponse.result) {
+        return res.send('You are not authorized to make this operation')
+      }
+
+      const messageObservable = this.client.send<any>('rent-book', { bookId: dto.bookId, userId: userResponse.id })
+
       const messagePromise = new Promise((resolve) => {
         messageObservable.subscribe({
           next(value) {
@@ -33,20 +51,38 @@ export class RentalsController {
 
   @Get()
   async getRentals(@Res() res, @Body() dto: any) {
-    return res.send('siema tutaj getRentals')
+    try {
+      const userObservable = this.userClient.send<any>('authorize', { ...dto })
 
-    const messageObservable = this.client.send<any>('get-rentals', { ...dto })
-
-    const messagePromise = new Promise((resolve) => {
-      messageObservable.subscribe({
-        next(value) {
-          resolve(value)
-        },
+      const userPromise = new Promise((resolve) => {
+        userObservable.subscribe({
+          next(value) {
+            resolve(value)
+          },
+        })
       })
-    })
 
-    const messageResponse = await messagePromise
+      const userResponse: any= await userPromise
 
-    return res.send(messageResponse)
+      if (!userResponse.result) {
+        return res.send('You are not authorized to make this operation')
+      }
+
+      const messageObservable = this.client.send<any>('rent-book', { bookId: dto.bookId, userId: userResponse.id })
+
+      const messagePromise = new Promise((resolve) => {
+        messageObservable.subscribe({
+          next(value) {
+            resolve(value)
+          },
+        })
+      })
+
+      const messageResponse = await messagePromise
+
+      return res.send(messageResponse)
+    } catch (err) {
+      return res.send(err)
+    }
   }
 }

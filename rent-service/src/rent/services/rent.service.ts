@@ -9,7 +9,7 @@ export class RentService {
 
   async rentBook(dto: any) {
     console.log(dto)
-
+    
     return 1
     /*
     const channel = context.getChannelRef()

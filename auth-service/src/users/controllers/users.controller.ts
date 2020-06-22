@@ -50,7 +50,7 @@ export class UsersController {
     try {
       const result = await this.service.authorizeUser(data)
 
-      return { result }
+      return { ...result }
     } catch (error) {
       return { error }
     }

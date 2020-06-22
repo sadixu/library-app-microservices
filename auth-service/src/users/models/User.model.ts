@@ -3,7 +3,6 @@ import { AggregateRoot } from '@nestjs/cqrs'
 import { Password } from '../value.objects/Password.value.object'
 import { Email } from '../value.objects/Email.value.object'
 import { Token } from '../value.objects/Token.value-object'
-import { access } from 'fs'
 
 export class User extends AggregateRoot {
   constructor(

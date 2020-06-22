@@ -26,6 +26,8 @@ export class AuthorizeHandler implements IQueryHandler<AuthorizeQuery> {
       user.refreshToken,
     )
 
-    return userObject.confirmAuthorization()
+    const result = await userObject.confirmAuthorization()
+
+    return { id: user._id, ...result}
   }
 }
