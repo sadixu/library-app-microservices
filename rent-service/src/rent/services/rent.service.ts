@@ -7,5 +7,23 @@ export class RentService {
 
   async authorize(accessToken: string) {}
 
-  async rentBook(dto: any) {}
+  async rentBook(dto: any) {
+    console.log(dto)
+
+    return 1
+    /*
+    const channel = context.getChannelRef()
+    const originalMsg = context.getMessage()
+    channel.ack(originalMsg)
+
+    try {
+      // const result = await this.service.createBook(data)
+      const result = 2
+      return { result }
+    } catch (error) {
+      return { error }
+    }
+
+    */
+  }
 }

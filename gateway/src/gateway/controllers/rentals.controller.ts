@@ -5,25 +5,30 @@ const { SERVICE_NAME } = process.env
 
 @Controller('rental')
 export class RentalsController {
-  constructor(@Inject(SERVICE_NAME) private readonly client: ClientProxy) {
+  constructor(@Inject(`${SERVICE_NAME}-RENT`) private readonly client: ClientProxy) {
     Logger.log('Gateway for Books is up and fresh.')
   }
 
   @Post()
   async rentBook(@Res() res, @Body() dto: any) {
-    const messageObservable = this.client.send<any>('rent-book', { ...dto })
-
-    const messagePromise = new Promise((resolve) => {
-      messageObservable.subscribe({
-        next(value) {
-          resolve(value)
-        },
+    try {
+      console.log(dto)
+      const messageObservable = this.client.send<any>('rent-book', { ...dto })
+      console.log(1)
+      const messagePromise = new Promise((resolve) => {
+        messageObservable.subscribe({
+          next(value) {
+            resolve(value)
+          },
+        })
       })
-    })
 
-    const messageResponse = await messagePromise
+      const messageResponse = await messagePromise
 
-    return res.send(messageResponse)
+      return res.send(messageResponse)
+    } catch (err) {
+      return res.send(err)
+    }
   }
 
   @Get()

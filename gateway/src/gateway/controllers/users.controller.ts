@@ -5,42 +5,50 @@ const { SERVICE_NAME } = process.env
 
 @Controller('user')
 export class UsersController {
-  constructor(@Inject(SERVICE_NAME) private readonly client: ClientProxy) {
+  constructor(@Inject(`${SERVICE_NAME}-AUTH`) private readonly client: ClientProxy) {
     Logger.log('Gateway for Users is up and fresh.')
   }
 
   @Post()
   async registerUser(@Res() res, @Body() dto: any) {
-    const messageObservable = this.client.send<any>('register-user', { ...dto })
+    try {
+      const messageObservable = this.client.send<any>('register-user', { ...dto })
 
-    const messagePromise = new Promise((resolve) => {
-      messageObservable.subscribe({
-        next(value) {
-          resolve(value)
-        },
+      const messagePromise = new Promise((resolve) => {
+        messageObservable.subscribe({
+          next(value) {
+            resolve(value)
+          },
+        })
       })
-    })
 
-    const messageResponse = await messagePromise
+      const messageResponse = await messagePromise
 
-    return res.send(messageResponse)
+      return res.send(messageResponse)
+    } catch (err) {
+      return res.send(err)
+    }
   }
 
   @Post('/session')
   async loginUser(@Res() res, @Body() dto: any) {
-    const messageObservable = this.client.send<any>('login', { ...dto })
+    try {
+      const messageObservable = this.client.send<any>('login', { ...dto })
 
-    const messagePromise = new Promise((resolve, reject) => {
-      messageObservable.subscribe({
-        next(value) {
-          resolve(value)
-        },
+      const messagePromise = new Promise((resolve, reject) => {
+        messageObservable.subscribe({
+          next(value) {
+            resolve(value)
+          },
+        })
       })
-    })
 
-    const messageResponse = await messagePromise
+      const messageResponse = await messagePromise
 
-    return res.send(messageResponse)
+      return res.send(messageResponse)
+    } catch (err) {
+      return res.send(err)
+    }
   }
 
   @Get('/auth')
@@ -59,7 +67,6 @@ export class UsersController {
 
     return res.send(messageResponse)
   }
-
 
   @Delete('/session')
   async logoutUser(@Res() res, @Body() dto: any) {

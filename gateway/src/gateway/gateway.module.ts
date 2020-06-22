@@ -7,18 +7,50 @@ import { RentalsController } from './controllers/rentals.controller'
 
 import { AttachTokensMiddleware } from './middlewares/attach-tokens.middleware'
 
-const { RMQ_USER, RMQ_PASSWORD, RMQ_PORT, RMQ_HOST, RMQ_VIRTUAL_HOST, RMQ_USER_QUEUE, SERVICE_NAME } = process.env
+const {
+  RMQ_USER,
+  RMQ_PASSWORD,
+  RMQ_PORT,
+  RMQ_HOST,
+  RMQ_VIRTUAL_HOST,
+  RMQ_USER_QUEUE_AUTH,
+  RMQ_USER_QUEUE_BOOK,
+  RMQ_USER_QUEUE_RENT,
+  SERVICE_NAME,
+} = process.env
 const rmqConnectionUrl = `amqp://${RMQ_USER}:${RMQ_PASSWORD}@${RMQ_HOST}:${RMQ_PORT}/${RMQ_VIRTUAL_HOST}`
 
 @Module({
   imports: [
     ClientsModule.register([
       {
-        name: SERVICE_NAME,
+        name: `${SERVICE_NAME}-AUTH`,
         transport: Transport.RMQ,
         options: {
           urls: [rmqConnectionUrl],
-          queue: RMQ_USER_QUEUE,
+          queue: RMQ_USER_QUEUE_AUTH,
+          noAck: false,
+        },
+      },
+    ]),
+    ClientsModule.register([
+      {
+        name: `${SERVICE_NAME}-RENT`,
+        transport: Transport.RMQ,
+        options: {
+          urls: [rmqConnectionUrl],
+          queue: RMQ_USER_QUEUE_RENT,
+          noAck: false,
+        },
+      },
+    ]),
+    ClientsModule.register([
+      {
+        name: `${SERVICE_NAME}-BOOK`,
+        transport: Transport.RMQ,
+        options: {
+          urls: [rmqConnectionUrl],
+          queue: RMQ_USER_QUEUE_BOOK,
           noAck: false,
         },
       },

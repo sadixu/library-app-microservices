@@ -1,5 +1,5 @@
 import { Controller, Inject, Logger } from '@nestjs/common'
-import { ClientProxy, MessagePattern, Payload, Ctx, RmqContext } from '@nestjs/microservices'
+import { ClientProxy, EventPattern, Payload, Ctx, RmqContext } from '@nestjs/microservices'
 
 import { UserService } from '../services/user.service'
 
@@ -11,7 +11,7 @@ export class UsersController {
     Logger.log('User controller is up and fresh.')
   }
 
-  @MessagePattern('register-user')
+  @EventPattern('register-user')
   async registerUserEvent(@Payload() data: any, @Ctx() context: RmqContext) {
     const channel = context.getChannelRef()
     const originalMsg = context.getMessage()
@@ -26,7 +26,7 @@ export class UsersController {
     }
   }
 
-  @MessagePattern('login')
+  @EventPattern('login')
   async loginUser(@Payload() data: any, @Ctx() context: RmqContext) {
     const channel = context.getChannelRef()
     const originalMsg = context.getMessage()
@@ -41,7 +41,7 @@ export class UsersController {
     }
   }
 
-  @MessagePattern('authorize')
+  @EventPattern('authorize')
   async authorizeUser(@Payload() data: any, @Ctx() context: RmqContext) {
     const channel = context.getChannelRef()
     const originalMsg = context.getMessage()

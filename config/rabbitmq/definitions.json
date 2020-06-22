@@ -103,7 +103,23 @@
   "policies": [],
   "queues": [
     {
-      "name": "lib-queue",
+      "name": "lib-queue-auth",
+      "vhost": "library-app-host",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {},
+      "no_ack": false
+    },
+    {
+      "name": "lib-queue-book",
+      "vhost": "library-app-host",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {},
+      "no_ack": false
+    },
+    {
+      "name": "lib-queue-rent",
       "vhost": "library-app-host",
       "durable": true,
       "auto_delete": false,

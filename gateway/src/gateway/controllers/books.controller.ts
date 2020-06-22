@@ -5,7 +5,7 @@ const { SERVICE_NAME } = process.env
 
 @Controller('book')
 export class BooksController {
-  constructor(@Inject(SERVICE_NAME) private readonly client: ClientProxy) {
+  constructor(@Inject(`${SERVICE_NAME}-BOOK`) private readonly client: ClientProxy) {
     Logger.log('Gateway for Books is up and fresh.')
   }
 

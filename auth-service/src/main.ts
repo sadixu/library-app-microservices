@@ -26,6 +26,9 @@ async function bootstrap() {
         urls: [rmqConnectionUrl],
         queue: RMQ_USER_QUEUE,
         noAck: false,
+        durable: true,
+        autoDelete: false,
+        arguments: {},
         prefetchCount: 1,
       },
     })
