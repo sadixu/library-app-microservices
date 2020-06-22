@@ -170,7 +170,7 @@ services:
       context: ./gateway/
     env_file: ./gateway/.env
     ports:
-      - 8085:3027
+      - 8085:26026
     tty: true
     stdin_open: true
     depends_on:

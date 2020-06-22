@@ -1,5 +1,5 @@
 import { Controller, Inject, Logger } from '@nestjs/common'
-import { ClientProxy, EventPattern, Payload, Ctx, RmqContext } from '@nestjs/microservices'
+import { ClientProxy, MessagePattern, Payload, Ctx, RmqContext } from '@nestjs/microservices'
 
 import { CreateBookDTO } from '../dtos/create-book.dto'
 import { BookService } from '../services/book.service'
@@ -12,9 +12,8 @@ export class BooksController {
     Logger.log('Controller started')
   }
 
-  @EventPattern('create-book')
+  @MessagePattern('create-book')
   async createBook(@Payload() data: any, @Ctx() context: RmqContext) {
-    console.log('message received')
     const channel = context.getChannelRef()
     const originalMsg = context.getMessage()
     channel.ack(originalMsg)

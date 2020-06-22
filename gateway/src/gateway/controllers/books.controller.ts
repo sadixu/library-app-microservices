@@ -11,18 +11,22 @@ export class BooksController {
 
   @Post()
   async createBook(@Res() res, @Body() dto: any) {
-    const messageObservable = this.client.send<any>('create-book', { ...dto })
+    try {
+      const messageObservable = this.client.send<any>('create-book', { ...dto })
 
-    const messagePromise = new Promise((resolve) => {
-      messageObservable.subscribe({
-        next(value) {
-          resolve(value)
-        },
+      const messagePromise = new Promise((resolve) => {
+        messageObservable.subscribe({
+          next(value) {
+            resolve(value)
+          },
+        })
       })
-    })
 
-    const messageResponse = await messagePromise
+      const messageResponse = await messagePromise
 
-    return res.send(messageResponse)
+      return res.send(messageResponse)
+    } catch (error) {
+      return res.send(error.message)
+    }
   }
 }

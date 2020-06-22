@@ -9,7 +9,6 @@ const { SERVICE_NAME, SERVICE_VERSION, PORT } = process.env
 async function bootstrap() {
   try {
     const app = await NestFactory.create(GatewayModule)
-
     app.enableCors()
     app.useGlobalPipes(new ValidationPipe())
 
