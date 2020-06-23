@@ -1,5 +1,5 @@
 import { Controller, Inject, Logger } from '@nestjs/common'
-import { ClientProxy, EventPattern, Payload, Ctx, RmqContext } from '@nestjs/microservices'
+import { ClientProxy, MessagePattern, Payload, Ctx, RmqContext } from '@nestjs/microservices'
 
 import { RentService } from '../services/rent.service'
 
@@ -10,12 +10,21 @@ export class RentalController {
     Logger.log('Constructor is alive')
   }
 
-  @EventPattern('rent-book')
+  @MessagePattern('rent-book')
   async createBook(@Payload() data: any, @Ctx() context: RmqContext) {
     const channel = context.getChannelRef()
     const originalMsg = context.getMessage()
     channel.ack(originalMsg)
 
     return this.service.rentBook(data)
+  }
+
+  @MessagePattern('get-rentals')
+  async getRentals(@Payload() data: any, @Ctx() context: RmqContext) {
+    const channel = context.getChannelRef()
+    const originalMsg = context.getMessage()
+    channel.ack(originalMsg)
+
+    return this.service.getRentals(data)
   }
 }

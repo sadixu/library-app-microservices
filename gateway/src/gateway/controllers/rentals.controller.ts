@@ -48,7 +48,6 @@ export class RentalsController {
         return res.send('Book with given ID does not exist')
       }
 
-      
       const messageObservable = this.client.send<any>('rent-book', { bookId: dto.bookId, userId: userResponse.id })
 
       const messagePromise = new Promise((resolve) => {
@@ -86,19 +85,20 @@ export class RentalsController {
         return res.send('You are not authorized to make this operation')
       }
 
-      const messageObservable = this.client.send<any>('rent-book', { bookId: dto.bookId, userId: userResponse.id })
+      const rentalObservable = this.client.send<any>('get-rentals', { userId: userResponse.id })
 
-      const messagePromise = new Promise((resolve) => {
-        messageObservable.subscribe({
+      
+      const rentalPromise = new Promise((resolve) => {
+        rentalObservable.subscribe({
           next(value) {
             resolve(value)
           },
         })
       })
 
-      const messageResponse = await messagePromise
+      const rentalResponse: any = await rentalPromise
 
-      return res.send(messageResponse)
+      res.send(rentalResponse)
     } catch (err) {
       return res.send(err)
     }

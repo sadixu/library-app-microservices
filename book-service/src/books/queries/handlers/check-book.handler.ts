@@ -9,8 +9,6 @@ export class CheckBookHandler implements IQueryHandler<CheckBookQuery> {
   constructor(private readonly repository: BookRepository) {}
 
   async execute(query: CheckBookDTO) {
-    console.log(1)
-
     const book = await this.repository.findOne(query.bookId)
 
     if (!book) {

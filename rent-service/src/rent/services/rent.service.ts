@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { CommandBus, QueryBus } from '@nestjs/cqrs'
 
 import { RentBookCommand } from '../commands/impl/rent-book.command'
+import { GetRentalsQuery } from '../queries/impl/get-rentals.query'
 
 @Injectable()
 export class RentService {
@@ -9,5 +10,9 @@ export class RentService {
 
   async rentBook(dto: any) {
     return this.commandBus.execute(new RentBookCommand(dto.bookId, dto.userId))
+  }
+
+  async getRentals(dto: any) {
+    return this.queryBus.execute(new GetRentalsQuery(dto.userId))
   }
 }

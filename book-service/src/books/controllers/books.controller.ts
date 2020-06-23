@@ -23,12 +23,11 @@ export class BooksController {
 
       return { result }
     } catch (error) {
-      console.log(error)
       return { error }
     }
   }
 
-  
+
   @MessagePattern('check-book')
   async checkBook(@Payload() data: any, @Ctx() context: RmqContext) {
     const channel = context.getChannelRef()
@@ -40,7 +39,6 @@ export class BooksController {
 
       return { result }
     } catch (error) {
-      console.log(error)
       return { error }
     }
   }
