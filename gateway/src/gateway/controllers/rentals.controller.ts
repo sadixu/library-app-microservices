@@ -8,6 +8,7 @@ export class RentalsController {
   constructor(
     @Inject(`${SERVICE_NAME}-RENT`) private readonly client: ClientProxy,
     @Inject(`${SERVICE_NAME}-AUTH`) private readonly userClient: ClientProxy,
+    @Inject(`${SERVICE_NAME}-BOOK`) private readonly bookClient: ClientProxy,
   ) {
     Logger.log('Gateway for Books is up and fresh.')
   }
@@ -25,12 +26,29 @@ export class RentalsController {
         })
       })
 
-      const userResponse: any= await userPromise
+      const userResponse: any = await userPromise
 
       if (!userResponse.result) {
         return res.send('You are not authorized to make this operation')
       }
 
+      const bookObservable = this.bookClient.send<any>('check-book', { bookId: dto.bookId })
+
+      const bookPromise = new Promise((resolve) => {
+        bookObservable.subscribe({
+          next(value) {
+            resolve(value)
+          },
+        })
+      })
+
+      const bookResponse: any = await bookPromise
+
+      if (!bookResponse.result) {
+        return res.send('Book with given ID does not exist')
+      }
+
+      
       const messageObservable = this.client.send<any>('rent-book', { bookId: dto.bookId, userId: userResponse.id })
 
       const messagePromise = new Promise((resolve) => {
@@ -62,7 +80,7 @@ export class RentalsController {
         })
       })
 
-      const userResponse: any= await userPromise
+      const userResponse: any = await userPromise
 
       if (!userResponse.result) {
         return res.send('You are not authorized to make this operation')

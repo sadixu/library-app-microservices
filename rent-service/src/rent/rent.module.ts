@@ -6,6 +6,8 @@ import { MongooseModule } from '@nestjs/mongoose'
 
 import { RentService } from './services/rent.service'
 import { RentalSchema } from './schemas/Rental'
+import { CommandHandlers } from './commands/handlers'
+import { RentRepository } from './repositories/rent.repository'
 
 const { RMQ_USER, RMQ_PASSWORD, RMQ_PORT, RMQ_HOST, RMQ_VIRTUAL_HOST, RMQ_USER_QUEUE, SERVICE_NAME } = process.env
 const rmqConnectionUrl = `amqp://${RMQ_USER}:${RMQ_PASSWORD}@${RMQ_HOST}:${RMQ_PORT}/${RMQ_VIRTUAL_HOST}`
@@ -28,6 +30,6 @@ const rmqConnectionUrl = `amqp://${RMQ_USER}:${RMQ_PASSWORD}@${RMQ_HOST}:${RMQ_P
     MongooseModule.forFeature([{ name: 'Rental', schema: RentalSchema }]),
   ],
   controllers: [RentalController],
-  providers: [RentService],
+  providers: [RentService, ...CommandHandlers, RentRepository],
 })
 export class RentModule {}

@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, Min, Max } from 'class-validator';
+import { IsNotEmpty, Min, Max } from 'class-validator';
 
 export class CreateBookDTO {
   @IsNotEmpty()

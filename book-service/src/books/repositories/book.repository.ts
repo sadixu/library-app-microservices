@@ -16,6 +16,8 @@ export class BookRepository {
   }
 
   async findOne(bookID: string): Promise<Book> {
+    console.log(bookID)
+
     const book = await this.bookModel.findById(bookID).exec()
 
     return book

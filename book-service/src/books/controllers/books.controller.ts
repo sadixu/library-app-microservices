@@ -27,4 +27,21 @@ export class BooksController {
       return { error }
     }
   }
+
+  
+  @MessagePattern('check-book')
+  async checkBook(@Payload() data: any, @Ctx() context: RmqContext) {
+    const channel = context.getChannelRef()
+    const originalMsg = context.getMessage()
+    channel.ack(originalMsg)
+
+    try {
+      const result = await this.service.checkBook(data)
+
+      return { result }
+    } catch (error) {
+      console.log(error)
+      return { error }
+    }
+  }
 }
