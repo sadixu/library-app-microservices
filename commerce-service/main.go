@@ -1,13 +1,18 @@
 package main
 
-import "fmt"
+import (
+	Controller "./app/controllers"
+)
 
 func main() {
-	fmt.Println("Hello there")
+	Controller.LoadApi()
 }
 
 /*
 TODO:
+* structure:
+	* routing import complexity
+
 * mongodb:
 	* shipment schema
 	* payment schema
