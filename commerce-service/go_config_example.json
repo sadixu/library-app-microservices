@@ -1,3 +1,8 @@
 {
-    "Port": 80860
+    "Port": 8086,
+    "MongoPort": 27103,
+    "MongoExpressPort": 9003,
+    "MongoUser": "root",
+    "MongoPassword": "password",
+    "Database": "commerce"
 }

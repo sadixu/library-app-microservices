@@ -9,6 +9,10 @@ import (
 
 type Configuration struct {
 	Port int
+	MongoPort int
+	MongoExpressPort int
+	MongoUser string
+	MongoPassword string
 }
 
 func LoadEnvs() Configuration {
