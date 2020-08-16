@@ -154,3 +154,4 @@ lerna-debug.log*
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+go_config.json

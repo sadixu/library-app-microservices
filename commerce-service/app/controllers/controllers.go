@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	TestSvc "../../domain/services/tester"
+	Configuration "../../infrastructure/utils/env"
 	"github.com/gorilla/mux"
 )
 
@@ -21,5 +22,5 @@ func LoadApi() {
 	router.HandleFunc("/casual-body-returner", TestSvc.TestFunction4).Methods("POST")
 	router.HandleFunc("/casual-body-extractor", TestSvc.TestFunction5).Methods("PUT")
 
-	log.Fatal(http.ListenAndServe(":8086", router))
+	log.Fatal(http.ListenAndServe(":"+Configuration.GetPort(), router))
 }
