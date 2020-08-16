@@ -11,8 +11,7 @@ func main() {
 /*
 TODO:
 * structure:
-	* routing import complexity
-
+	
 * mongodb:
 	* shipment schema
 	* payment schema
@@ -31,4 +30,12 @@ TODO:
 
 * features
 	* Stripe: https://github.com/stripe/stripe-go
+
+DONE:
+* structure:
+	* routing import complexity - mostly checked whether imports work as I wanted to
+	* reading environment variables - from JSON file, but at least it works :)
+
+* routing:
+	* example endpoints to extract body, params, send response - maybe a rubbish code, but works too
 */
