@@ -1,17 +1,24 @@
 package main
 
 import (
-	Controller "./app/controllers"
+	TestController "./app/test"
+	"github.com/gorilla/mux"
 )
 
+func loadRoutes() {
+	router := mux.NewRouter().StrictSlash(true)
+
+	TestController.LoadApi(router)
+}
+
 func main() {
-	Controller.LoadApi()
+	loadRoutes()
 }
 
 /*
 TODO:
 * structure:
-	
+
 * mongodb:
 	* shipment schema
 	* payment schema
