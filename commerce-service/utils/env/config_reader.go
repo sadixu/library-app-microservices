@@ -8,12 +8,20 @@ import (
 )
 
 type Configuration struct {
-	Port int
-	MongoPort int
+	Port             int
+	MongoPort        int
 	MongoExpressPort int
-	MongoUser string
+	MongoUser        string
+	MongoPassword    string
+}
+
+type MongoConfiguration struct {
+	MongoPort     int
+	MongoUser     string
 	MongoPassword string
 }
+
+var config = LoadEnvs()
 
 func LoadEnvs() Configuration {
 	configuration := Configuration{}
@@ -35,9 +43,13 @@ func LoadEnvs() Configuration {
 }
 
 func GetPort() string {
-	config := LoadEnvs()
-
 	port := strconv.Itoa(config.Port)
 
 	return port
+}
+
+func GetMongoConfig() MongoConfiguration {
+	mongoconfig := MongoConfiguration{MongoPort: config.MongoPort, MongoUser: config.MongoUser, MongoPassword: config.MongoPassword}
+
+	return mongoconfig
 }

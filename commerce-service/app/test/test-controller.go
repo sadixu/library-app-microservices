@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	TestSvc "../../domain/services/tester"
-	Configuration "../../infrastructure/utils/env"
+	Configuration "../../utils/env"
 	"github.com/gorilla/mux"
 )
 
