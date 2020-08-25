@@ -29,7 +29,6 @@ TODO:
 * structure:
 
 * mongodb:
-	* shipment schema
 	* payment schema
 	* manager schema
 	* client schema
@@ -37,7 +36,6 @@ TODO:
 
 * routing
 	* POST order
-	* GET shipment
 	* POST payment propably :) will require Stripe
 	* PUT order/:id/shipment adds also tracking number and shipment "Waiting to ship"
 	* PUT order/:id finish shipment
@@ -51,7 +49,17 @@ DONE:
 * structure:
 	* routing import complexity - mostly checked whether imports work as I wanted to
 	* reading environment variables - from JSON file, but at least it works :)
+	* initial DDD structure
+	* shipment structure
+
+* mongodb:
+	* connection
+	* Shipment schema
+	* Shipment create, findOne, find
 
 * routing:
 	* example endpoints to extract body, params, send response - maybe a rubbish code, but works too
+	* POST shipment
+	* GET shipments
+	* GET shipment/:name
 */
