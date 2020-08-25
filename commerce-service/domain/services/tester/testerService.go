@@ -21,6 +21,7 @@ func TestFunction(w http.ResponseWriter, r *http.Request) {
 }
 
 func TestFunction2(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	articles := []Article{
 		Article{Title: "Hello", Desc: "Article Description", Content: "Article Content"},
 		Article{Title: "Hello 2", Desc: "Article Description", Content: "Article Content"},

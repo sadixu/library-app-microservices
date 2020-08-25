@@ -2,22 +2,25 @@ package main
 
 import (
 	"log"
+	"net/http"
 
+	ShipmentRouter "./app/shipment/routers"
 	TestController "./app/test"
-	Database "./utils/database"
+	Configuration "./utils/env"
 	"github.com/gorilla/mux"
 )
 
 func loadRoutes() {
 	log.Println("Loading routes")
-	router := mux.NewRouter().StrictSlash(true)
+	r := mux.NewRouter().StrictSlash(true)
 
-	TestController.LoadApi(router)
+	TestController.LoadApi(r)
+	ShipmentRouter.LoadApi(r)
+
+	http.ListenAndServe(":"+Configuration.GetPort(), r)
 }
 
 func main() {
-	Database.Connect()
-
 	loadRoutes()
 }
 
