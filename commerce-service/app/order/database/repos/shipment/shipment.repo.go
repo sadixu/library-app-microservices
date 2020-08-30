@@ -1,11 +1,11 @@
-package repository
+package shipment
 
 import (
 	"context"
 	"log"
 
-	DB "../../../utils/database"
-	Model "../../shipment"
+	DB "order/utils/database"
+	Model "order/app/order/domain/shipment"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"

@@ -4,9 +4,9 @@ import (
 	"log"
 	"net/http"
 
-	ShipmentRouter "./app/shipment/routers"
-	TestController "./app/test"
-	Configuration "./utils/env"
+	Controller "order/http/controllers"
+	Configuration "order/utils/env"
+
 	"github.com/gorilla/mux"
 )
 
@@ -14,9 +14,7 @@ func loadRoutes() {
 	log.Println("Loading routes")
 	r := mux.NewRouter().StrictSlash(true)
 
-	TestController.LoadApi(r)
-	ShipmentRouter.LoadApi(r)
-
+	Controller.LoadShipmentsApi(r)
 	http.ListenAndServe(":"+Configuration.GetPort(), r)
 }
 
@@ -51,6 +49,7 @@ DONE:
 	* reading environment variables - from JSON file, but at least it works :)
 	* initial DDD structure
 	* shipment structure
+	* a lot better DDD structure already
 
 * mongodb:
 	* connection
