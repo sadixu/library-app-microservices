@@ -44,12 +44,14 @@ func CreateShipmentHandler(w http.ResponseWriter, r *http.Request) {
 	err := d.Decode(&req)
 
 	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode("Error during decoding JSON")
 	}
 
 	result, error := Commands.CreateShipmentCommand(req.Name, req.Cost)
 
 	if error != nil {
+		w.WriteHeader(error.Code)
 		fmt.Fprintf(w, "%+v", string(error.Message))
 	}
 
