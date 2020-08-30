@@ -15,6 +15,7 @@ func loadRoutes() {
 	r := mux.NewRouter().StrictSlash(true)
 
 	Controller.LoadShipmentsApi(r)
+	Controller.LoadPaymentsApi(r)
 	http.ListenAndServe(":"+Configuration.GetPort(), r)
 }
 
