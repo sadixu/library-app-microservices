@@ -2,13 +2,11 @@ package payment
 
 import (
 	Domain "order/app/order/domain"
-
-	"github.com/globalsign/mgo/bson"
 )
 
 // Payment schema for MongoDB, joined with domain model, as it is not complex and this is learning app
 type Payment struct {
-	BsonID          bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	BsonID          string `json:"id" bson:"_id,omitempty"`
 	Value           float32
 	UserID          string
 	Paid            bool

@@ -5,12 +5,23 @@ import (
 	Model "order/app/order/domain/payment"
 )
 
-func GetUserPaymentsQuery(userId string) []*Model.Payment {
-	result := PaymentRepository.GetPaymentsByUser(userId)
+func GetUserPaymentsQuery(userId string) []Model.Payment {
+	result := PaymentRepository.GetPayments()
 
 	if len(result) == 0 {
-		return []*Model.Payment{}
+		return []Model.Payment{}
+	}
+	var filteredResult []Model.Payment
+
+	for _, v := range result {
+		if v.UserID == userId {
+			filteredResult = append(filteredResult, v)
+		}
 	}
 
-	return result
+	if len(filteredResult) == 0 {
+		return []Model.Payment{}
+	}
+
+	return filteredResult
 }

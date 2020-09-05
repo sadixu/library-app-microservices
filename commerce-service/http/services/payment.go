@@ -70,7 +70,7 @@ type AcknowledgePaymentRequest struct {
 
 func PayOrderHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-
+	fmt.Println("Test")
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
 
