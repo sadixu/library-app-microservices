@@ -13,12 +13,19 @@ type Configuration struct {
 	MongoExpressPort int
 	MongoUser        string
 	MongoPassword    string
+	StripeKey        string
+	StripeSecret     string
 }
 
 type MongoConfiguration struct {
 	MongoPort     int
 	MongoUser     string
 	MongoPassword string
+}
+
+type StripeConfiguration struct {
+	StripeKey    string
+	StripeSecret string
 }
 
 var config = LoadEnvs()
@@ -52,4 +59,10 @@ func GetMongoConfig() MongoConfiguration {
 	mongoconfig := MongoConfiguration{MongoPort: config.MongoPort, MongoUser: config.MongoUser, MongoPassword: config.MongoPassword}
 
 	return mongoconfig
+}
+
+func GetStripeConfig() StripeConfiguration {
+	stripeconfig := StripeConfiguration{StripeKey: config.StripeKey, StripeSecret: config.StripeSecret}
+
+	return stripeconfig
 }

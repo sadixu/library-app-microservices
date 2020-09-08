@@ -4,5 +4,7 @@
     "MongoExpressPort": 9003,
     "MongoUser": "root",
     "MongoPassword": "password",
-    "Database": "commerce"
+    "Database": "commerce",
+    "StripeKey": "testKey",
+    "StripeSecret": "testSecret"
 }

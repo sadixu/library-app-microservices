@@ -66,3 +66,18 @@ func SavePayment(s Model.Payment) *mongo.InsertOneResult {
 
 	return insertResult
 }
+
+func UpdatePaymentStatus(id, stripeId string) (*mongo.UpdateResult, error) {
+	objID, _ := primitive.ObjectIDFromHex(id)
+	filter := bson.M{"_id": bson.M{"$eq": objID}}
+
+	update := bson.M{"$set": bson.M{"StripePaymentID": stripeId, "Paid": true}}
+
+	result, err := collection.UpdateOne(
+		context.TODO(),
+		filter,
+		update,
+	)
+
+	return result, err
+}
