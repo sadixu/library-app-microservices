@@ -22,7 +22,6 @@ func GetUserPaymentsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetPaymentHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("test")
 	w.Header().Set("Content-Type", "application/json")
 
 	vars := mux.Vars(r)
@@ -66,7 +65,6 @@ func InitPaymentHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 type PayPaymentRequest struct {
-	Value float32 `json:"Value"`
 	Email string  `json:"Email"`
 }
 
@@ -88,7 +86,7 @@ func PayOrderHandler(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode("Error during decoding JSON")
 	}
 
-	result, error := Commands.PayPaymentCommand(req.Value, req.Email, id)
+	result, error := Commands.PayPaymentCommand(req.Email, id)
 
 	if error != nil {
 		w.WriteHeader(error.Code)
@@ -96,6 +94,24 @@ func PayOrderHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if (result != Model.Payment{}) {
+		json.NewEncoder(w).Encode(result)
+	}
+}
+
+func PrepareOrderPaymentHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	vars := mux.Vars(r)
+	id := vars["Id"]
+
+	result, error := Commands.PrepareOrderPaymentCommand(id)
+
+	if error != nil {
+		w.WriteHeader(error.Code)
+		fmt.Fprintf(w, "%+v", string(error.Message))
+	}
+
+	if (result != nil) {
 		json.NewEncoder(w).Encode(result)
 	}
 }

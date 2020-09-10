@@ -4,9 +4,11 @@ import (
 	"context"
 	"log"
 
-	DB "order/utils/database"
 	Model "order/app/order/domain/shipment"
+	DB "order/utils/database"
+
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -71,4 +73,18 @@ func GetShipments() []*Model.Shipment {
 	cur.Close(context.TODO())
 
 	return results
+}
+
+func GetShipment(id string) Model.Shipment {
+	var result Model.Shipment
+
+	objectIDS, _ := primitive.ObjectIDFromHex(id)
+	filter := bson.M{"_id": objectIDS}
+
+	err := collection.FindOne(context.TODO(), filter).Decode(&result)
+	if err != nil {
+		log.Println(err)
+	}
+
+	return result
 }

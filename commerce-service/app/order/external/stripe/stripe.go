@@ -94,11 +94,10 @@ func GetOrCreateCustomer(email string) *stripe.Customer {
 
 func charge(v float32, paymentId, cId string) *stripe.PaymentIntent {
 	stripe.Key = config.StripeSecret
-
 	params := &stripe.PaymentIntentParams{
 		Customer:    stripe.String(cId),
 		Description: stripe.String(paymentId),
-		Amount:      stripe.Int64(2000),
+		Amount:      stripe.Int64(int64(v * 100)),
 		Currency:    stripe.String(string(stripe.CurrencyPLN)),
 		PaymentMethodTypes: []*string{
 			stripe.String("card"),

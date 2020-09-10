@@ -16,6 +16,8 @@ func loadRoutes() {
 
 	Controller.LoadShipmentsApi(r)
 	Controller.LoadPaymentsApi(r)
+	Controller.LoadOrdersApi(r)
+	
 	http.ListenAndServe(":"+Configuration.GetPort(), r)
 }
 
