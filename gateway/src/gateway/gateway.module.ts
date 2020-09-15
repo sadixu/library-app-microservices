@@ -4,6 +4,7 @@ import { Transport, ClientsModule } from '@nestjs/microservices'
 import { UsersController } from './controllers/users.controller'
 import { BooksController } from './controllers/books.controller'
 import { RentalsController } from './controllers/rentals.controller'
+import { CommerceController } from './controllers/commerce.controller'
 
 import { AttachTokensMiddleware } from './middlewares/attach-tokens.middleware'
 
@@ -56,7 +57,7 @@ const rmqConnectionUrl = `amqp://${RMQ_USER}:${RMQ_PASSWORD}@${RMQ_HOST}:${RMQ_P
       },
     ]),
   ],
-  controllers: [UsersController, BooksController, RentalsController],
+  controllers: [UsersController, BooksController, RentalsController, CommerceController],
   providers: [],
 })
 export class GatewayModule implements NestModule {

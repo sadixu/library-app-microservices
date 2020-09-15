@@ -10,7 +10,9 @@ import (
 
 func Connect() *mongo.Client {
 	log.Println("Connecting to MongoDB...")
-	clientOptions := options.Client().ApplyURI("mongodb://root:password@localhost:27103/ecommerce?authSource=admin&w=1")
+
+	//localhost:27103
+	clientOptions := options.Client().ApplyURI("mongodb://root:password@library-mongo-commerce:27019/ecommerce?authSource=admin&w=1")
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 
 	if err != nil {

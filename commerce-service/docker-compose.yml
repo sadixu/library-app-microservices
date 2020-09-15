@@ -1,0 +1,47 @@
+version: '3.7'
+
+services:
+  library-mongo-commerce:
+    container_name: library-mongo-commerce
+    image: mongo
+    ports:
+      - 27103:27019
+    restart: always
+    command: mongod --port 27019
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - /Users/patryksadok/Databases
+
+  library-mongo-express-commerce:
+    container_name: library-mongo-express-commerce
+    image: mongo-express
+    restart: always
+    links:
+      - 'library-mongo-commerce:mongo'
+    ports:
+      - 9003:8081
+    depends_on:
+      - library-mongo-commerce
+    environment:
+      ME_CONFIG_MONGODB_PORT: 27019
+      ME_CONFIG_MONGODB_SERVER: library-mongo-commerce
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+
+  commerce-service-backend:
+    container_name: commerce-service-backend
+    build:
+      context: ./
+    ports:
+      - 8086:8086
+    tty: true
+    stdin_open: true
+    depends_on:
+      - library-mongo-commerce
+      - library-mongo-express-commerce
+    volumes:
+      - ./:/usr/src/app
+    command: go run main.go
+    
